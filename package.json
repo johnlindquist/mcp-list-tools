@@ -1,15 +1,21 @@
 {
   "name": "mcp-list-tools",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A simplified command-line tool to list available tools, resources, and prompts from MCP (Model Context Protocol) servers",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "mcp-list-tools": "./dist/index.js"
+    "mcp-list-tools": "dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "bun": "./index.ts",
+      "default": "./dist/index.js"
+    }
   },
   "scripts": {
-    "build": "bun build index.ts --outdir dist --target node --external @modelcontextprotocol/inspector && echo '#!/usr/bin/env node' | cat - dist/index.js > temp && mv temp dist/index.js && chmod +x dist/index.js",
+    "build": "bun build index.ts --outdir dist --target node --format esm --external @modelcontextprotocol/inspector && echo '#!/usr/bin/env node' | cat - dist/index.js > temp && mv temp dist/index.js && chmod +x dist/index.js",
     "dev": "bun run index.ts",
     "test": "bun run index.ts --help",
     "prepublishOnly": "bun run build"
@@ -17,8 +23,8 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
-    "button",
-    "handler",
+    "list",
+    "tools",
     "cli",
     "tool"
   ],
