@@ -13,7 +13,8 @@ interface Config {
 function getPackageJson(): any {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
-  const packageJsonPath = join(__dirname, 'package.json');
+  // When running from dist/, package.json is in parent directory
+  const packageJsonPath = join(__dirname, '..', 'package.json');
   return JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
 }
 
