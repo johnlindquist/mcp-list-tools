@@ -1,0 +1,49 @@
+{
+  "name": "mcp-button-handler",
+  "version": "1.0.0",
+  "description": "A simplified command-line tool to handle button presses in MCP (Model Context Protocol) servers",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "mcp-button-handler": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "bun build index.ts --outdir dist --target node --external @modelcontextprotocol/inspector && echo '#!/usr/bin/env node' | cat - dist/index.js > temp && mv temp dist/index.js && chmod +x dist/index.js",
+    "dev": "bun run index.ts",
+    "test": "bun run index.ts --help",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "button",
+    "handler",
+    "cli",
+    "tool"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/mcp-button-handler.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/mcp-button-handler/issues"
+  },
+  "homepage": "https://github.com/yourusername/mcp-button-handler#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "bun-types": "latest"
+  }
+}
