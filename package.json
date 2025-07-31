@@ -1,12 +1,12 @@
 {
-  "name": "mcp-button-handler",
-  "version": "1.0.0",
-  "description": "A simplified command-line tool to handle button presses in MCP (Model Context Protocol) servers",
+  "name": "mcp-list-tools",
+  "version": "1.0.1",
+  "description": "A simplified command-line tool to list available tools, resources, and prompts from MCP (Model Context Protocol) servers",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "mcp-button-handler": "./dist/index.js"
+    "mcp-list-tools": "./dist/index.js"
   },
   "scripts": {
     "build": "bun build index.ts --outdir dist --target node --external @modelcontextprotocol/inspector && echo '#!/usr/bin/env node' | cat - dist/index.js > temp && mv temp dist/index.js && chmod +x dist/index.js",
@@ -26,12 +26,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/johnlindquist/mcp-button-handler.git"
+    "url": "https://github.com/johnlindquist/mcp-list-tools.git"
   },
   "bugs": {
-    "url": "https://github.com/johnlindquist/mcp-button-handler/issues"
+    "url": "https://github.com/johnlindquist/mcp-list-tools/issues"
   },
-  "homepage": "https://github.com/johnlindquist/mcp-button-handler#readme",
+  "homepage": "https://github.com/johnlindquist/mcp-list-tools#readme",
   "engines": {
     "node": ">=14.0.0"
   },

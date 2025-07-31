@@ -1,17 +1,27 @@
-# mcp-button-handler
+# mcp-list-tools
 
-A simplified command-line tool to handle button presses in MCP (Model Context Protocol) servers.
+A simplified command-line tool to list available tools, resources, and prompts from MCP (Model Context Protocol) servers.
 
 ## Why This Tool?
 
-The official MCP Inspector requires complex commands for button interactions. With `mcp-button-handler`, you can easily trigger button presses with a simple command structure.
+The official MCP Inspector requires remembering a complex command structure:
+
+```bash
+npx @modelcontextprotocol/inspector --cli <server_command> --method tools/list
+```
+
+With `mcp-list-tools`, you can simply use:
+
+```bash
+npx mcp-list-tools <server_command>
+```
 
 ## Installation
 
 No installation required! Use it directly with npx:
 
 ```bash
-npx mcp-button-handler --help
+npx mcp-list-tools --help
 ```
 
 ## Usage
@@ -19,33 +29,33 @@ npx mcp-button-handler --help
 ### Basic Usage
 
 ```bash
-# Handle button press from a local Node.js server
-npx mcp-button-handler node build/index.js --button myButton
+# List tools from a local Node.js server
+npx mcp-list-tools node build/index.js
 
-# Handle button press with parameters
-npx mcp-button-handler node build/index.js --button submit --params '{"name":"John","age":30}'
+# List tools from an NPM package server
+npx mcp-list-tools npx @modelcontextprotocol/server-filesystem /path/to/directory
 
-# Handle button press from an NPM package server
-npx mcp-button-handler npx @modelcontextprotocol/server-example --button action
+# List tools from a Python server
+npx mcp-list-tools python -m my_mcp_server
 
-# Handle button press from a Python server
-npx mcp-button-handler python -m my_mcp_server --button process
-
-# Handle button press from a remote server
-npx mcp-button-handler https://my-mcp-server.example.com --button trigger
+# List tools from a remote server
+npx mcp-list-tools https://my-mcp-server.example.com
 ```
 
 ### Advanced Options
 
 ```bash
+# List resources instead of tools
+npx mcp-list-tools node build/index.js --resources
+
+# List prompts instead of tools
+npx mcp-list-tools node build/index.js --prompts
+
 # Use HTTP transport for remote servers (default is SSE)
-npx mcp-button-handler https://my-server.com --button submit --transport http
+npx mcp-list-tools https://my-server.com --transport http
 
 # Show verbose output (displays the underlying inspector command)
-npx mcp-button-handler node build/index.js --button test --verbose
-
-# Pass complex parameters as JSON
-npx mcp-button-handler node server.js --button createUser --params '{"username":"alice","email":"alice@example.com","roles":["admin","user"]}'
+npx mcp-list-tools node build/index.js --verbose
 ```
 
 ## Command Reference
@@ -56,8 +66,8 @@ npx mcp-button-handler node server.js --button createUser --params '{"username":
 - `--version`, `-v`: Show version information
 - `--transport <type>`: Specify transport type for remote servers (default: sse)
 - `--verbose`: Show verbose output including the full inspector command
-- `--button <name>`: Specify the button name to press (required for button actions)
-- `--params <json>`: Parameters to pass to the button as a JSON string
+- `--resources`: List resources instead of tools
+- `--prompts`: List prompts instead of tools
 
 ### Examples
 
@@ -65,51 +75,61 @@ npx mcp-button-handler node server.js --button createUser --params '{"username":
 
 ```bash
 # TypeScript/JavaScript server
-npx mcp-button-handler node dist/index.js --button start
-npx mcp-button-handler node build/server.js --button stop --params '{"force":true}'
+npx mcp-list-tools node dist/index.js
+npx mcp-list-tools node build/server.js --port 3000
 
 # Python server
-npx mcp-button-handler python -m my_mcp_server --button process
-npx mcp-button-handler python server.py --button analyze --params '{"mode":"deep"}'
+npx mcp-list-tools python -m my_mcp_server
+npx mcp-list-tools python server.py --config config.json
 ```
 
 #### NPM Package Servers
 
 ```bash
-# Example server button press
-npx mcp-button-handler npx @modelcontextprotocol/server-example --button demo
+# Filesystem server
+npx mcp-list-tools npx @modelcontextprotocol/server-filesystem /Users/username/Documents
 
-# Custom server with parameters
-npx mcp-button-handler npx my-mcp-server --button execute --params '{"task":"cleanup"}'
+# GitHub server
+npx mcp-list-tools npx @modelcontextprotocol/server-github --token YOUR_TOKEN
+
+# Slack server
+npx mcp-list-tools npx @modelcontextprotocol/server-slack --token YOUR_SLACK_TOKEN
 ```
 
 #### Remote Servers
 
 ```bash
 # Default SSE transport
-npx mcp-button-handler https://api.example.com/mcp --button refresh
+npx mcp-list-tools https://api.example.com/mcp
 
-# HTTP transport with parameters
-npx mcp-button-handler https://api.example.com/mcp --transport http --button submit --params '{"data":"test"}'
+# HTTP transport
+npx mcp-list-tools https://api.example.com/mcp --transport http
+
+# With authentication (if supported by the server)
+npx mcp-list-tools https://api.example.com/mcp --transport http
 ```
 
-#### Discovering Available Buttons
-
-To see what buttons are available, use the companion tool:
+#### Different Content Types
 
 ```bash
-# List available tools/buttons
+# List available tools (default)
 npx mcp-list-tools node server.js
+
+# List available resources
+npx mcp-list-tools node server.js --resources
+
+# List available prompts
+npx mcp-list-tools node server.js --prompts
 ```
 
 ## What This Tool Does
 
-This tool is a wrapper around the official `@modelcontextprotocol/inspector` CLI tool specifically for button interactions. It:
+This tool is a simple wrapper around the official `@modelcontextprotocol/inspector` CLI tool. It:
 
-1. Simplifies button press commands
-2. Provides clear parameter passing via JSON
-3. Handles the underlying MCP call protocol
-4. Maintains full compatibility with all MCP server types
+1. Simplifies the command syntax
+2. Provides sensible defaults
+3. Offers convenient shortcuts for common operations
+4. Maintains full compatibility with the underlying inspector
 
 ## Requirements
 
@@ -121,47 +141,31 @@ This tool is a wrapper around the official `@modelcontextprotocol/inspector` CLI
 ### Common Issues
 
 1. **"Command not found" errors**: Make sure you have Node.js installed and npx is available
-2. **Button not found**: Use `mcp-list-tools` to verify available buttons
-3. **Invalid parameters**: Ensure your JSON is properly formatted and escaped
-4. **Connection issues**: Verify your server is running and accessible
-
-### Parameter Formatting
-
-When passing parameters, ensure proper JSON formatting:
-
-```bash
-# Simple parameters
---params '{"key":"value"}'
-
-# Complex parameters with arrays and objects
---params '{"users":["alice","bob"],"settings":{"theme":"dark"}}'
-
-# Escaping quotes in shell
---params "{\"name\":\"John's Computer\"}"
-```
+2. **Server connection issues**: Verify your server is running and accessible
+3. **Permission errors**: Ensure your server command has proper permissions
 
 ### Verbose Mode
 
-Use the `--verbose` flag to debug issues:
+Use the `--verbose` flag to see the exact inspector command being executed:
 
 ```bash
-npx mcp-button-handler node server.js --button test --verbose
+npx mcp-list-tools node server.js --verbose
 ```
 
 This will show:
 ```
-Running: npx @modelcontextprotocol/inspector --cli node server.js --method call --params {"method":"test","params":{}}
+Running: npx @modelcontextprotocol/inspector --cli node server.js --method tools/list
 ---
 [inspector output follows]
 ```
 
 ## Contributing
 
-This tool is designed to be simple and focused on button handling. If you have suggestions:
+This tool is designed to be simple and focused. If you have suggestions for improvements:
 
-1. Keep it focused on button interactions
+1. Keep it simple - the goal is to reduce complexity, not add features
 2. Maintain compatibility with the underlying inspector
-3. Ensure parameter passing remains intuitive
+3. Focus on common use cases
 
 ## License
 
@@ -169,6 +173,5 @@ MIT License - see LICENSE file for details.
 
 ## Related Projects
 
-- [mcp-list-tools](https://www.npmjs.com/package/mcp-list-tools) - List available MCP tools and resources
 - [@modelcontextprotocol/inspector](https://www.npmjs.com/package/@modelcontextprotocol/inspector) - The official MCP Inspector
 - [Model Context Protocol](https://modelcontextprotocol.io/) - Official MCP documentation
