@@ -26,12 +26,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/mcp-button-handler.git"
+    "url": "https://github.com/johnlindquist/mcp-button-handler.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/mcp-button-handler/issues"
+    "url": "https://github.com/johnlindquist/mcp-button-handler/issues"
   },
-  "homepage": "https://github.com/yourusername/mcp-button-handler#readme",
+  "homepage": "https://github.com/johnlindquist/mcp-button-handler#readme",
   "engines": {
     "node": ">=14.0.0"
   },
